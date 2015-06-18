@@ -12,10 +12,10 @@
 # limitations under the License.
 
 from gcloud import datastore
-from gcloud import exceptions
 import curses
 import os
 import time
+
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "key.json"
 os.environ["GCLOUD_TESTS_PROJECT_ID"] = "YOUR_RPOEJCT_ID_HERE"
