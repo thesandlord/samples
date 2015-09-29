@@ -24,7 +24,7 @@ import time
 #Replace "YOUR_RPOEJCT_ID_HERE" with the correct value in code.py
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "key.json"
 
-projectID = "mythical-geode-93517"
+projectID = "YOUR_RPOEJCT_ID_HERE"
 
 os.environ["GCLOUD_TESTS_PROJECT_ID"] = projectID
 os.environ["GCLOUD_TESTS_DATASET_ID"] = projectID
