@@ -1,0 +1,14 @@
+{
+	"name": "node-client-1",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Part One of Microservices Demo using Kubernetes and gRPC",
+	"scripts": {
+		"start": "node frontend.js"
+	},
+	"repository": {
+	  "type": "git",
+	  "url": ""
+	},
+	"license": "Apache-2.0"
+}

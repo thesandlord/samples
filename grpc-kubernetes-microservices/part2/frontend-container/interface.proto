@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package geo;
+
+service GeoService {
+	rpc DistanceBetween (Points) returns (Distance) {}
+}
+
+message Point {
+	float lat = 1;
+	float lng = 2; 
+}
+
+message Points {
+	Point origin = 1;
+	Point destination = 2;
+}
+
+message Distance {
+	float distance = 1;
+}

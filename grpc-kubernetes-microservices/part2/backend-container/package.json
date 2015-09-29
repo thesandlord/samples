@@ -1,0 +1,17 @@
+{
+	"name": "node-backend",
+	"version": "1.0.0",
+	"private": true,
+	"description": "Part Two of Microservices Demo using Kubernetes and gRPC",
+	"scripts": {
+		"start": "node backend.js"
+	},
+	"repository": {
+	  "type": "git",
+	  "url": ""
+	},
+	"dependencies": {
+		"grpc": "~0.10.0"
+	},
+	"license": "Apache-2.0"
+}
