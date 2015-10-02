@@ -18,7 +18,7 @@ clear
 printf "\n Creating Cluster \n"
 
 cat << EOM
-gcloud beta container --project "smart-spark-93622"
+gcloud beta container --project "<YOUR-PROJECT-ID>"
     clusters create "api-world-cluster"
     --zone "us-central1-f"
     --machine-type "n1-standard-1"
