@@ -12,8 +12,12 @@
 # limitations under the License.
 #
 #!/bin/bash
+PROJECTID = "<YOUR-PROJECT-ID>"
+
 docker rmi -f api-world/frontend:2.0
-docker rmi -f gcr.io/smart-spark-93622/frontend:2.0
+docker rmi -f gcr.io/$PROJECTID/frontend:2.0
+docker rmi -f api-world/backend:1.0
+docker rmi -f gcr.io/$PROJECTID/backend:1.0
 clear
 
 printf "\n IMPORTANT: Part 1 Must be run first! \n"
@@ -35,19 +39,19 @@ docker build -t api-world/backend:1.0 ./backend-container/
 printf "\n\n Publish Containers \n"
 
 cat << EOM
-docker tag api-world/frontend:2.0 gcr.io/smart-spark-93622/frontend:2.0
+docker tag api-world/frontend:2.0 gcr.io/$PROJECTID/frontend:2.0
 gcloud docker push gcr.io/smart-spark-93622/frontend:2.0
 EOM
 
-docker tag api-world/frontend:2.0 gcr.io/smart-spark-93622/frontend:2.0
+docker tag api-world/frontend:2.0 gcr.io/$PROJECTID/frontend:2.0
 gcloud docker push gcr.io/smart-spark-93622/frontend:2.0
 
 cat << EOM
-docker tag api-world/backend:1.0 gcr.io/smart-spark-93622/backend:1.0
+docker tag api-world/backend:1.0 gcr.io/$PROJECTID/backend:1.0
 gcloud docker push gcr.io/smart-spark-93622/backend:1.0
 EOM
 
-docker tag api-world/backend:1.0 gcr.io/smart-spark-93622/backend:1.0
+docker tag api-world/backend:1.0 gcr.io/$PROJECTID/backend:1.0
 gcloud docker push gcr.io/smart-spark-93622/backend:1.0
 
 printf "\n\n Create Backend Controller \n"
@@ -71,8 +75,8 @@ kubectl create -f backend-service.yaml
 printf "\n\n Update Frontend \n"
 
 cat << EOM
-kubectl rolling-update frontend --image=gcr.io/smart-spark-93622/frontend:2.0 --update-period="1s"
+kubectl rolling-update frontend --image=gcr.io/$PROJECTID/frontend:2.0 --update-period="1s"
 
 EOM
 
-kubectl rolling-update frontend --image=gcr.io/smart-spark-93622/frontend:2.0 --update-period="1s"
+kubectl rolling-update frontend --image=gcr.io/$PROJECTID/frontend:2.0 --update-period="1s"

@@ -13,12 +13,17 @@
 #
 #!/bin/bash
 
+PROJECTID = "<YOUR-PROJECT-ID>"
+
+docker rmi -f api-world/frontend:1.0
+docker rmi -f gcr.io/$PROJECTID/frontend:1.0
+
 clear
 
 printf "\n Creating Cluster \n"
 
 cat << EOM
-gcloud beta container --project "smart-spark-93622"
+gcloud beta container --project "$PROJECTID"
     clusters create "api-world-cluster"
     --zone "us-central1-f"
     --machine-type "n1-standard-1"
@@ -26,7 +31,7 @@ gcloud beta container --project "smart-spark-93622"
     --scope "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring"
 EOM
 
-gcloud beta container --project "smart-spark-93622" \
+gcloud beta container --project "$PROJECTID" \
     clusters create "api-world-cluster" \
     --zone "us-central1-f" \
     --machine-type "n1-standard-1" \
@@ -37,13 +42,13 @@ printf "\n\n Logging into Cluster \n"
 
 cat << EOM
 gcloud beta container clusters get-credentials
-    --project "smart-spark-93622"
+    --project "$PROJECTID"
     --cluster "api-world-cluster"
     --zone "us-central1-f"
 EOM
 
 gcloud beta container clusters get-credentials \
-    --project "smart-spark-93622" \
+    --project "$PROJECTID" \
     --cluster "api-world-cluster" \
     --zone "us-central1-f"
 
@@ -58,12 +63,12 @@ docker build -t api-world/frontend:1.0 ./frontend-container/
 printf "\n\n Publish Container \n"
 
 cat << EOM
-docker tag api-world/frontend:1.0 gcr.io/smart-spark-93622/frontend:1.0
-gcloud docker push gcr.io/smart-spark-93622/frontend:1.0
+docker tag api-world/frontend:1.0 gcr.io/$PROJECTID/frontend:1.0
+gcloud docker push gcr.io/$PROJECTID/frontend:1.0
 EOM
 
-docker tag api-world/frontend:1.0 gcr.io/smart-spark-93622/frontend:1.0
-gcloud docker push gcr.io/smart-spark-93622/frontend:1.0
+docker tag api-world/frontend:1.0 gcr.io/$PROJECTID/frontend:1.0
+gcloud docker push gcr.io/$PROJECTID/frontend:1.0
 
 printf "\n\n Create Controller \n"
 
