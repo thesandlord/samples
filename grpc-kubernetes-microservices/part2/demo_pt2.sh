@@ -18,6 +18,7 @@ docker rmi -f api-world/frontend:2.0
 docker rmi -f gcr.io/$PROJECTID/frontend:2.0
 docker rmi -f api-world/backend:1.0
 docker rmi -f gcr.io/$PROJECTID/backend:1.0
+
 clear
 
 printf "\n IMPORTANT: Part 1 Must be run first! \n"
@@ -40,19 +41,19 @@ printf "\n\n Publish Containers \n"
 
 cat << EOM
 docker tag api-world/frontend:2.0 gcr.io/$PROJECTID/frontend:2.0
-gcloud docker push gcr.io/smart-spark-93622/frontend:2.0
+gcloud docker push gcr.io/$PROJECTID/frontend:2.0
 EOM
 
 docker tag api-world/frontend:2.0 gcr.io/$PROJECTID/frontend:2.0
-gcloud docker push gcr.io/smart-spark-93622/frontend:2.0
+gcloud docker push gcr.io/$PROJECTID/frontend:2.0
 
 cat << EOM
 docker tag api-world/backend:1.0 gcr.io/$PROJECTID/backend:1.0
-gcloud docker push gcr.io/smart-spark-93622/backend:1.0
+gcloud docker push gcr.io/$PROJECTID/backend:1.0
 EOM
 
 docker tag api-world/backend:1.0 gcr.io/$PROJECTID/backend:1.0
-gcloud docker push gcr.io/smart-spark-93622/backend:1.0
+gcloud docker push gcr.io/$PROJECTID/backend:1.0
 
 printf "\n\n Create Backend Controller \n"
 

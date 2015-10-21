@@ -17,13 +17,11 @@
 
 #Import libraries
 from gcloud import datastore
-import os
-import time
 import datetime
 
-#The next few lines will set up your environment variables
+#The next few lines will set up your connection to Datastore
 #Replace "YOUR_RPOEJCT_ID_HERE" with the correct value in code.py
-projectID = "smart-spark-93622"
+projectID = "YOUR_RPOEJCT_ID_HERE"
 
 client = datastore.Client.from_service_account_json( json_credentials_path="key.json", dataset_id=projectID )
 
