@@ -12,7 +12,7 @@
 # limitations under the License.
 #
 #!/bin/bash
-PROJECTID = "<YOUR-PROJECT-ID>"
+PROJECTID=$(gcloud config list project | awk 'FNR ==2 { print $3 }')
 
 docker rmi -f api-world/frontend:2.0
 docker rmi -f gcr.io/$PROJECTID/frontend:2.0

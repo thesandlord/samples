@@ -13,7 +13,7 @@
 #
 #!/bin/bash
 
-PROJECTID = "<YOUR-PROJECT-ID>"
+PROJECTID=$(gcloud config list project | awk 'FNR ==2 { print $3 }')
 
 docker rmi -f api-world/frontend:1.0
 docker rmi -f gcr.io/$PROJECTID/frontend:1.0

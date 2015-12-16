@@ -21,9 +21,26 @@ import datetime
 
 #The next few lines will set up your connection to Datastore
 #Replace "YOUR_RPOEJCT_ID_HERE" with the correct value in code.py
-projectID = "YOUR_RPOEJCT_ID_HERE"
+projectID = "smart-spark-93622"
 
 client = datastore.Client.from_service_account_json( json_credentials_path="key.json", dataset_id=projectID )
+
+record_key = client.key('Record', 1234)
+record_entity = datastore.Entity(key=record_key,exclude_from_indexes=('RandomFieldName',))
+
+embedded_key = client.key('Data', 2345)
+embedded_entity = datastore.Entity(key=embedded_key,exclude_from_indexes=('big_field',))
+embedded_entity['field1']='1234'
+with open ("code.py", "r") as myfile:
+    embedded_entity['big_field']=myfile.read().replace('\n', '')
+
+record_entity['RandomFieldName']=embedded_entity
+
+print(record_entity.exclude_from_indexes)
+print(record_entity['RandomFieldName'].exclude_from_indexes)
+print(embedded_entity.exclude_from_indexes)
+client.put(record_entity)
+client.put(embedded_entity)
 
 #Let us build a message board / news website
 

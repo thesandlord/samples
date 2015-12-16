@@ -1,0 +1,7 @@
+App Engine example to access project metadata.
+
+To add/update metadata, run the following gcloud command
+
+```
+$ gcloud compute project-info add-metadata --metadata <VAR-NAME>=<VAR-VALUE>
+```
