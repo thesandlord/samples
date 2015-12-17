@@ -14,18 +14,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-//App Engine app for accessing project metadata
-package main
+// Package metadata_sample is an App Engine app that fetches project metadata.
+package metadata_sample
 
 import (
 	"encoding/json"
 	"fmt"
+	"net/http"
+
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2/google"
+
 	"google.golang.org/api/compute/v1"
+
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/log"
-	"net/http"
 )
 
 func init() {
@@ -33,47 +36,44 @@ func init() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	// Get the App Engine context
 	ctx := appengine.NewContext(r)
 
 	// Get and Print out the metadata
 	metadata, err := getMetadata(ctx)
 	if err != nil {
-		fmt.Fprintf(w, "%s", err)
-	} else {
-		json.NewEncoder(w).Encode(metadata)
+		msg := fmt.Sprintf("Could not get metadata: %v", err)
+		log.Errorf(ctx, "%s", msg)
+		http.Error(w, msg, 500)
+		return
 	}
-
+	json.NewEncoder(w).Encode(metadata)
 }
 
-// getMetadata will get all Project Metadata from the project
-// that this App Engine program is running in. It returns a
-// map that contains all the Project Metadata.
+// getMetadata fetches Project Metadata from the project that this App Engine program is running in.
 func getMetadata(ctx context.Context) (map[string]string, error) {
-
 	// Get the OAuth Credentials for the Compute Engine scope
 	hc, err := google.DefaultClient(ctx, compute.ComputeScope)
 
 	// Connect to the Compute Engine service
 	service, err := compute.New(hc)
 	if err != nil {
-		log.Errorf(ctx, "Could Not Connect to Compute Engine Service: %v", err)
-		return nil, fmt.Errorf("Could Not Connect to Compute Engine Service: %v", err)
+		return nil, err
 	}
 
-	// Get list of all project metadata
-	list, err := service.Projects.Get(appengine.AppID(ctx)).Do()
+	// Get the project
+	proj, err := service.Projects.Get(appengine.AppID(ctx)).Do()
 	if err != nil {
-		log.Errorf(ctx, "Could Not Get Compute Engine Metadata: %v", err)
-		return nil, fmt.Errorf("Could Not Get Compute Engine Metadata: %v", err)
+		return nil, err
 	}
-	metadata := list.CommonInstanceMetadata.Items
 
 	// Convert metadata to a nice map
-	metadataMap := make(map[string]string)
-	for _, element := range metadata {
-		metadataMap[element.Key] = element.Value
+	meta := make(map[string]string)
+	for _, item := range proj.CommonInstanceMetadata.Items {
+		if item.Value == nil {
+			continue
+		}
+		meta[item.Key] = *item.Value
 	}
 
-	return metadataMap, nil
+	return meta, nil
 }
