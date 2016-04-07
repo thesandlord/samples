@@ -24,7 +24,7 @@ var upload = multer({ dest: 'uploads/' });
 // Set up auth
 var gcloud = require('gcloud')({
 	keyFilename: 'key.json',
-	projectId: 'smart-spark-93622'
+	projectId: '<YOUR-PROJECT-ID-HERE>'
 });
 
 var vision = gcloud.vision();
