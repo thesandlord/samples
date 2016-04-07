@@ -48,7 +48,7 @@ app.get('/', function (req, res){
 app.post('/upload', upload.single('image'), function (req, res, next) {
 	
 	// Choose what the Vision API should detect
-	// Choices are: faces, landmarks, labels, logos, properties, safeSearch, texts
+	// Choices are: faces, landmarks, labels, logos, properties, safeSearch, text
 	var types = ["labels"]
 	
 	// Send the image to the Cloud Vision API
