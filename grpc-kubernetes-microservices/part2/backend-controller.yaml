@@ -11,16 +11,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-apiVersion: v1
-kind: ReplicationController
+apiVersion: extensions/v1beta1
+kind: Deployment
 metadata:
-  labels:
-    name: backend
   name: backend
 spec:
   replicas: 4
-  selector:
-    name: backend
   template:
     metadata:
       labels:

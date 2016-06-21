@@ -76,8 +76,8 @@ kubectl create -f backend-service.yaml
 printf "\n\n Update Frontend \n"
 
 cat << EOM
-kubectl rolling-update frontend --image=gcr.io/$PROJECTID/frontend:2.0 --update-period="1s"
+kubectl apply -f frontend-controller.yaml
 
 EOM
 
-kubectl rolling-update frontend --image=gcr.io/$PROJECTID/frontend:2.0 --update-period="1s"
+kubectl apply -f frontend-controller.yaml

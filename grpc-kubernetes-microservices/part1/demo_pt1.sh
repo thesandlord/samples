@@ -23,33 +23,31 @@ clear
 printf "\n Creating Cluster \n"
 
 cat << EOM
-gcloud beta container --project "$PROJECTID"
+gcloud container --project "$PROJECTID"
     clusters create "api-world-cluster"
     --zone "us-central1-f"
     --machine-type "n1-standard-1"
-    --num-nodes "5"
+    --num-nodes "3"
     --scope "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring"
 EOM
 
-gcloud beta container --project "$PROJECTID" \
+gcloud container --project "$PROJECTID" \
     clusters create "api-world-cluster" \
     --zone "us-central1-f" \
     --machine-type "n1-standard-1" \
-    --num-nodes "5" \
+    --num-nodes "3" \
     --scope "https://www.googleapis.com/auth/compute","https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring"
 
 printf "\n\n Logging into Cluster \n"
 
 cat << EOM
-gcloud beta container clusters get-credentials
+gcloud container clusters get-credentials api-world-cluster
     --project "$PROJECTID"
-    --cluster "api-world-cluster"
     --zone "us-central1-f"
 EOM
 
-gcloud beta container clusters get-credentials \
+gcloud container clusters get-credentials api-world-cluster \
     --project "$PROJECTID" \
-    --cluster "api-world-cluster" \
     --zone "us-central1-f"
 
 printf "\n\n Build Container \n"
@@ -74,19 +72,19 @@ printf "\n\n Create Controller \n"
 
 cat << EOM
 
-kubectl create -f frontend-controller.yaml
+kubectl apply -f frontend-controller.yaml
 EOM
 
-kubectl create -f frontend-controller.yaml
+kubectl apply -f frontend-controller.yaml
 
 printf "\n\n Create Service \n"
 
 cat << EOM
 
-kubectl create -f frontend-service.yaml
+kubectl apply -f frontend-service.yaml
 EOM
 
-kubectl create -f frontend-service.yaml
+kubectl apply -f frontend-service.yaml
 
 printf "\n\n Get IP Address \n"
 
